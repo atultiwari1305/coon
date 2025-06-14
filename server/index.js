@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const { Server } = require("socket.io");
 
-const connectDB = require("./config/db");
 const redisClient = require("./config/redis");
 const Message = require("./models/Message");
 const Channel = require("./models/Channel");
@@ -13,6 +12,7 @@ const channelRoutes = require("./routes/channelRoutes");
 
 dotenv.config();
 
+const connectDB = require("./config/db");
 const app = express();
 const server = http.createServer(app);
 
