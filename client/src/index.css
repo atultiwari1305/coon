@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Use the @theme directive to include Tailwinds default theme (colors, spacing, etc.) */
+@theme {
+  /* You do not need to add anything specific here unless you are CUSTOMIZING colors. */
+  /* Just having the @theme block present tells Tailwind to include its defaults. */
+}
