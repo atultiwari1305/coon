@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
     console.log(`✅ Socket ${socket.id} joined room: ${room}`);
 
     try {
-      const cachedMessages = await redisClient.lRange(`messages:${room}`, 0, -1);
+      const cachedMessages = await redisClient.lrange(`messages:${room}`, 0, -1);
       let messages = [];
 
       if (cachedMessages.length > 0) {
@@ -104,8 +104,8 @@ io.on("connection", (socket) => {
     await newMessage.save();
 
     const redisKey = `messages:${room}`;
-    await redisClient.rPush(redisKey, JSON.stringify({ ...data, _id: newMessage._id }));
-    await redisClient.lTrim(redisKey, -100, -1);
+    await redisClient.rpush(redisKey, JSON.stringify({ ...data, _id: newMessage._id }));
+    await redisClient.ltrim(redisKey, -100, -1);
 
     io.to(room).emit("receive_message", { ...data, _id: newMessage._id });
     console.log(`📨 Message from ${senderID} in #${room}: "${message}"`);
