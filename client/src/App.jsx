@@ -6,7 +6,6 @@ import axios from "axios";
 import { API_BASE_URL } from "./services/api"; // ✅ Import API base URL
 
 const App = () => {
-  console.log("BASE URL =>", API_BASE_URL);
   const anonUser = getAnonymousID();
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [showChat, setShowChat] = useState(

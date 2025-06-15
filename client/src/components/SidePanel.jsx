@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { getAnonymousID } from "../services/anonUser";
+import { API_BASE_URL } from "../services/api"; // ✅ Import API base URL
 
 const SidePanel = ({ selectedChannel, onSelectChannel }) => {
   const [channels, setChannels] = useState([]);
@@ -21,7 +22,7 @@ const SidePanel = ({ selectedChannel, onSelectChannel }) => {
 
   const fetchJoinedChannels = async () => {
     try {
-      const res = await axios.get(`/api/channels/joined/${anonUser}`);
+      const res = await axios.get(`${API_BASE_URL}/api/channels/joined/${anonUser}`);
       const list = Array.isArray(res.data.channels) ? res.data.channels : [];
 
       setChannels(list);
@@ -38,7 +39,7 @@ const SidePanel = ({ selectedChannel, onSelectChannel }) => {
 
   const handleSearch = async () => {
     try {
-      const res = await axios.get(`/api/channels/search?name=${searchTerm}`);
+      const res = await axios.get(`${API_BASE_URL}/api/channels/search?name=${searchTerm}`);
       const results = Array.isArray(res.data.channels) ? res.data.channels : [];
       setSearchResults(results);
     } catch (err) {
@@ -61,7 +62,7 @@ const SidePanel = ({ selectedChannel, onSelectChannel }) => {
         return;
       }
 
-      await axios.post("/api/channels/join", {
+      await axios.post(`${API_BASE_URL}/api/channels/join`, {
         channelName: channel.channelName,
         userId: anonUser,
         password,
@@ -94,7 +95,7 @@ const SidePanel = ({ selectedChannel, onSelectChannel }) => {
         body.password = password;
       }
 
-      await axios.post("/api/channels/create", body);
+      await axios.post(`${API_BASE_URL}/api/channels/create`, body);
       await fetchJoinedChannels();
       onSelectChannel(newChannelName);
       setNewChannelName("");
@@ -111,7 +112,7 @@ const SidePanel = ({ selectedChannel, onSelectChannel }) => {
     if (!confirmLeave) return;
 
     try {
-      await axios.post("/api/channels/leave", {
+      await axios.post(`${API_BASE_URL}/api/channels/leave`, {
         channelName,
         userId: anonUser,
       });
@@ -129,7 +130,7 @@ const SidePanel = ({ selectedChannel, onSelectChannel }) => {
     if (!confirmDelete) return;
 
     try {
-      await axios.post("/api/channels/delete", {
+      await axios.post(`${API_BASE_URL}/api/channels/delete`, {
         channelName,
         adminId: anonUser,
       });
