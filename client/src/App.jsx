@@ -3,8 +3,10 @@ import SidePanel from "./components/SidePanel";
 import ChatBox from "./components/ChatBox";
 import { getAnonymousID } from "./services/anonUser";
 import axios from "axios";
+import { API_BASE_URL } from "./services/api"; // ✅ Import API base URL
 
 const App = () => {
+  console.log("BASE URL =>", API_BASE_URL);
   const anonUser = getAnonymousID();
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [showChat, setShowChat] = useState(
@@ -16,7 +18,7 @@ const App = () => {
 
     const joinGeneral = async () => {
       try {
-        const res = await axios.post("/api/channels/join", {
+        const res = await axios.post(`${API_BASE_URL}/api/channels/join`, {
           channelName: "general",
           userId: anonUser,
         });
@@ -36,7 +38,7 @@ const App = () => {
 
   const handleSelectChannel = async (channelName) => {
     try {
-      const res = await axios.get(`/api/channels/info/${channelName}`);
+      const res = await axios.get(`${API_BASE_URL}/api/channels/info/${channelName}`);
       const channel = res.data.channel;
 
       setSelectedChannel({
